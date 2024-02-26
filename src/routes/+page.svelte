@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
     import SettingsBar from "$lib/components/SettingsBar.svelte";
     import Timer from "$lib/components/Timer.svelte";
+
+    let StartingMinutes: number = 10;
+    let StartingSeconds: number = 0;
 </script>
 
 <div>
@@ -8,8 +11,16 @@
         <SettingsBar />
     </nav>
     <section>
-        <Timer color="#00ff00" />
-        <Timer color="#ff0000" />
+        <Timer
+            {StartingMinutes}
+            {StartingSeconds}
+            color="#F00"
+        />
+        <Timer
+            {StartingMinutes}
+            {StartingSeconds}
+            color="#0f0"
+        />
     </section>
 </div>
 
