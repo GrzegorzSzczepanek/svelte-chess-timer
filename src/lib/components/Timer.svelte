@@ -1,14 +1,37 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import {
+        turn,
+        setTurn,
+        pointerEvents,
+        setPointerEvents
+    } from "$lib/index";
 
     export let color: string = "#232338";
     export let moves: number = 0;
+    export let isClickable: boolean;
+
     export let StartingMinutes: number;
     export let StartingSeconds: number;
 
     let time: number = StartingMinutes * 60 + StartingSeconds;
     let displayTime: string = StartingMinutes + ":" + StartingSeconds;
-    setInterval(updateCountdown, 1000);
+    // setInterval(updateCountdown, 1000);
+
+    let timerInterval: any;
+    let isTimerRunning: boolean = false;
+
+    export let player: boolean; // True means that player 1's turn, false means player 2's turn
+
+    function stop_timer() {
+        moves++;
+        if (isTimerRunning) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+        } else {
+            timerInterval = setInterval(updateCountdown, 1000);
+            isTimerRunning = true;
+        }
+    }
 
     function updateCountdown() {
         const minutes = Math.floor(time / 60);
@@ -20,21 +43,33 @@
         time--;
     }
 
-    let turn: boolean = true; // True means that player 1's turn, false means player 2's turn
+    // function incrementMove() {
+    //     moves++;
+    // }
+    function handleClick() {}
 
-    function incrementMove() {
-            moves++;
-            turn = false;
+    function disableClick() {
+        setTurn();
+        setPointerEvents();
+        console.log(player, turn, pointerEvents);
     }
 </script>
 
-<section style="background: {color};" on:click={() => incrementMove()}>
+<section
+    id="timer"
+    style="background: {color}; pointer-events: {pointerEvents === player ? 'none' : 'auto'};"
+    on:click={() => disableClick()}
+>
     <h1>
+        {#if isTimerRunning}
+            <i class="fa-solid fa-pause" />
+        {:else}
+            <i class="fa-solid fa-play" />
+        {/if}
         {displayTime}
         <br />
         Moves {moves}
     </h1>
-    <i class="fa-solid fa-rotate-right"></i>
 </section>
 
 <style>

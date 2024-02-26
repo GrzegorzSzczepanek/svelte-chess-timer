@@ -14,12 +14,16 @@
         <Timer
             {StartingMinutes}
             {StartingSeconds}
+            isClickable={true}
             color="#F00"
+            player={true}
         />
         <Timer
             {StartingMinutes}
             {StartingSeconds}
+            isClickable={false}
             color="#0f0"
+            player={false}
         />
     </section>
 </div>
